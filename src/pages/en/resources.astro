@@ -3,19 +3,17 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout locale="en" title="Resources" currentPage="resources">
-<!-- Page Header -->
- <section class="page-header">
- <div class="container">
- <h1>
-
- Resources
- </h1>
- <p>
-
- Videos, books, podcasts, career guides, giving platforms, and funding opportunities to learn, take action, and maximize your impact.
- </p>
- </div>
- </section>
+<section class="ae-section page-top">
+<div class="container">
+  <span class="ae-eyebrow">Resources</span>
+  <h1 class="page-title-ed">
+    Readings, essays, and tools <span class="ae-em">for impact</span>.
+  </h1>
+  <p class="ae-subhead" style="margin-top: 16px;">
+    Videos, books, podcasts, career guides, giving platforms, and funding opportunities.
+  </p>
+</div>
+</section>
 
  <!-- ========== VIDEOS ========== -->
  <section class="section bg-paper" id="videos">
@@ -618,3 +616,13 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 
  <!-- Footer -->
 </BaseLayout>
+
+<style>
+  .page-top { padding-top: calc(var(--nav-height, 76px) + 48px); }
+  .page-title-ed {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: var(--ae-t-h1); font-weight: 600;
+    line-height: 1.05; letter-spacing: var(--ae-h-tracking);
+    max-width: 900px; text-wrap: balance; margin: 0;
+  }
+</style>

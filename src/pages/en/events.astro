@@ -6,123 +6,102 @@ const eventsJson = JSON.stringify(eventsData);
 ---
 
 <BaseLayout locale="en" title="Events" currentPage="events">
-<!-- Page Header -->
- <section class="page-header">
- <div class="container">
- <h1>
+<section class="ae-section page-top">
+<div class="container">
+  <span class="ae-eyebrow">Upcoming events</span>
+  <h1 class="page-title">
+    Meetups, readings, and conversations <span class="ae-em">in Bogota</span>.
+  </h1>
+</div>
+</section>
 
- Events
- </h1>
- <p>
+<!-- Upcoming Events Grid -->
+<section class="ae-section" style="padding-top: 0;">
+<div class="container">
+  <hr class="ae-rule--bold" />
+  <div style="padding-top: 32px;">
+    <span class="ae-caption">Schedule</span>
+    <div id="events-grid" class="events-grid fade-in" style="margin-top: 24px;"></div>
+  </div>
+</div>
+</section>
 
- Talks, workshops, reading groups, and social meetups. Open to everyone.
- </p>
- </div>
- </section>
+<!-- Event Types -->
+<section class="ae-section" style="background: var(--ae-paper); border-top: 1px solid var(--ae-rule-strong);">
+<div class="container">
+  <span class="ae-eyebrow ae-eyebrow--mute">Types of events</span>
+  <h2 class="section-title-ed">
+    What kind of events <span class="ae-em">do we organize</span>?
+  </h2>
 
- <!-- Upcoming Events Grid -->
- <section class="section bg-paper">
- <div class="container">
- <div class="section-header fade-in">
- <span class="section-label">
+  <div class="ae-index" style="margin-top: 40px;">
+    <div class="ae-index__row">
+      <div class="ae-index__head">
+        <span class="ae-index__num">I.</span>
+        <h4 class="ae-index__title">Talks</h4>
+      </div>
+      <p class="ae-index__body">We invite experts and professionals to share their knowledge about cause areas, impactful careers, program evaluation, and more. 60-90 minute sessions with Q&amp;A.</p>
+    </div>
+    <div class="ae-index__row">
+      <div class="ae-index__head">
+        <span class="ae-index__num">II.</span>
+        <h4 class="ae-index__title">Reading groups</h4>
+      </div>
+      <p class="ae-index__body">Discussions on key EA books and articles. From "Doing Good Better" to impact evaluation papers. Accessible format for beginners and experts alike.</p>
+    </div>
+    <div class="ae-index__row">
+      <div class="ae-index__head">
+        <span class="ae-index__num">III.</span>
+        <h4 class="ae-index__title">Workshops</h4>
+      </div>
+      <p class="ae-index__body">Interactive sessions where participants apply EA tools to their own decisions: career planning, donation evaluation, theory of change, and more.</p>
+    </div>
+    <div class="ae-index__row">
+      <div class="ae-index__head">
+        <span class="ae-index__num">IV.</span>
+        <h4 class="ae-index__title">Social meetups</h4>
+      </div>
+      <p class="ae-index__body">Informal spaces to meet other community members, share ideas, and build connections. Because impact is also built in community.</p>
+    </div>
+  </div>
+</div>
+</section>
 
- Schedule
- </span>
- <h2>
+<!-- Host an Event CTA -->
+<section class="ae-section" style="border-top: 2px solid var(--ae-rule-bold);">
+<div class="container" style="text-align: center; max-width: 640px;">
+  <h2 class="section-title-ed" style="text-align: center;">
+    Want to host <span class="ae-em">an event</span>?
+  </h2>
+  <p style="color: var(--ae-ink-soft); margin-bottom: 32px;">
+    If you have an idea for a talk, workshop, or activity related to EA, we'd love to hear it.
+  </p>
+  <a href="https://tally.so/r/J9J1aY" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-lg">
+    Propose an event
+  </a>
+</div>
+</section>
 
- Upcoming Events
- </h2>
- </div>
-
- <div id="events-grid" class="events-grid fade-in"></div>
- </div>
- </section>
-
- <!-- Event Types -->
- <section class="section bg-sand-dark">
- <div class="container">
- <div class="section-header fade-in">
- <span class="section-label">
-
- Types of Events
- </span>
- <h2>
-
- What kind of events do we organize?
- </h2>
- </div>
-
- <div class="grid grid-2 fade-in">
- <div class="card">
- <h4>
-
- Talks
- </h4>
- <p>
-
- We invite experts and professionals to share their knowledge about cause areas, impactful careers, program evaluation, and more. 60-90 minute sessions with Q&A.
- </p>
- </div>
-
- <div class="card">
- <h4>
-
- Reading Groups
- </h4>
- <p>
-
- Discussions on key EA books and articles. From "Doing Good Better" to impact evaluation papers. Accessible format for beginners and experts alike.
- </p>
- </div>
-
- <div class="card">
- <h4>
-
- Workshops
- </h4>
- <p>
-
- Interactive sessions where participants apply EA tools to their own decisions: career planning, donation evaluation, theory of change, and more.
- </p>
- </div>
-
- <div class="card">
- <h4>
-
- Social Meetups
- </h4>
- <p>
-
- Informal spaces to meet other community members, share ideas, and build connections. Because impact is also built in community.
- </p>
- </div>
- </div>
- </div>
- </section>
-
- <!-- Host an Event CTA -->
- <section class="section-dark">
- <div class="container text-center fade-in">
- <div class="section-header">
- <h2>
-
- Want to host an event?
- </h2>
- <p>
-
- If you have an idea for a talk, workshop, or activity related to EA, we'd love to hear it.
- </p>
- </div>
- <a href="https://tally.so/r/J9J1aY" target="_blank" rel="noopener noreferrer" class="btn btn-light btn-lg">
-
- Propose an event
- </a>
- </div>
- </section>
-
- <!-- Footer -->
 <script is:inline define:vars={{ eventsJson }}>
   window.EVENTS_DATA = JSON.parse(eventsJson);
 </script>
 <script src="../../scripts/events.js"></script>
 </BaseLayout>
+
+<style>
+  .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+  @media (min-width: 768px) { .container { padding: 0 64px; } }
+  .page-top { padding-top: calc(var(--nav-height, 76px) + 48px); }
+  .page-title {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: var(--ae-t-h1); font-weight: 600;
+    line-height: 1.05; letter-spacing: var(--ae-h-tracking);
+    max-width: 900px; text-wrap: balance; margin: 0;
+  }
+  .section-title-ed {
+    font-family: "Inter", system-ui, sans-serif;
+    font-size: var(--ae-t-h1); font-weight: 600;
+    line-height: 1.05; letter-spacing: var(--ae-h-tracking);
+    max-width: 900px; text-wrap: balance; margin: 0 0 16px;
+  }
+</style>

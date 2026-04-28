@@ -1,0 +1,310 @@
+/* ────────────────────────────────────────────────────────────────────
+   Altruismo Eficaz Bogotá — Sabana refinement layer
+   Drop into src/styles/sabana.css and import AFTER global.css.
+
+   This file does NOT redefine your existing tokens (palette, typography,
+   navbar height, etc.). It introduces a small set of NEW tokens and
+   utility classes that bring "Sabana" — the editorial rhythm chosen
+   from the design exploration — into the existing design language.
+   ──────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* ─── Sabana additions (do not collide with existing tokens) ────── */
+
+  /* Editorial rhythm */
+  --ae-eyebrow-tracking: 0.16em;
+  --ae-display-tracking: -0.022em;
+  --ae-h-tracking:       -0.018em;
+  --ae-read-max:         640px;     /* ideal body-copy column */
+  --ae-section-pad-y:    72px;
+  --ae-rule-soft:        rgba(0, 0, 0, 0.12);
+  --ae-rule-strong:      rgba(0, 0, 0, 0.28);
+  --ae-rule-bold:        var(--color-text, #000);
+
+  /* Reuse existing palette under semantic Sabana names so component
+     CSS reads cleanly. Map to your existing tokens — adjust the right
+     side if your variables are named differently in global.css. */
+  --ae-bg:            var(--color-bg, #f4efe9);   /* warm paper */
+  --ae-paper:         #fbf8f1;                     /* slightly lighter raised surface */
+  --ae-ink:           var(--color-text, #000);
+  --ae-ink-soft:      #4a4540;
+  --ae-ink-mute:      #8a7e70;
+  --ae-accent:        var(--color-link, #0c859a);  /* teal — for italic emphasis, links */
+  --ae-cta:           var(--color-cta, #f59469);   /* salmon — primary buttons */
+  --ae-cta-coral:     var(--color-accent, #F18251);
+
+  /* Type scale (fluid). Inter for UI, Source Serif 4 italic for emphasis. */
+  --ae-t-display: clamp(40px, 7vw, 84px);
+  --ae-t-h1:      clamp(32px, 4.5vw, 52px);
+  --ae-t-h2:      clamp(26px, 3.5vw, 38px);
+  --ae-t-h3:      22px;
+  --ae-t-subhead: 20px;
+  --ae-t-body:    17px;
+  --ae-t-small:   14px;
+  --ae-t-caption: 11px;
+}
+
+@media (min-width: 768px) {
+  :root { --ae-section-pad-y: 96px; }
+}
+
+/* ─── Editorial primitives — add these classes to .astro markup ───── */
+
+/* Eyebrow: small mono-style label above section titles.
+   Uses Inter at heavy letter-spacing since you don't load a mono. */
+.ae-eyebrow {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-caption);
+  font-weight: 500;
+  letter-spacing: var(--ae-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--ae-accent);
+  display: block;
+  margin-bottom: 24px;
+}
+.ae-eyebrow--mute { color: var(--ae-ink-mute); }
+
+/* Caption: same family as eyebrow, used inside content for metadata */
+.ae-caption {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-caption);
+  font-weight: 500;
+  letter-spacing: var(--ae-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--ae-ink-mute);
+}
+
+/* Display heading: hero-only, large and balanced */
+.ae-display {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-display);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: var(--ae-display-tracking);
+  text-wrap: balance;
+  margin: 0;
+}
+
+/* Italic accent emphasis — the house style for Sabana
+   Use as: <span class="ae-em">con propósito</span> inside a heading */
+.ae-em {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ae-accent);
+}
+
+/* Subhead: italic Source Serif dek under a Display */
+.ae-subhead {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: var(--ae-t-subhead);
+  line-height: 1.45;
+  color: var(--ae-ink-soft);
+  margin: 0;
+  max-width: 580px;
+}
+
+/* Hairline rules between sections */
+.ae-rule        { border: 0; border-top: 1px solid var(--ae-rule-soft); margin: 0; }
+.ae-rule--strong{ border: 0; border-top: 1px solid var(--ae-rule-strong); margin: 0; }
+.ae-rule--bold  { border: 0; border-top: 2px solid var(--ae-rule-bold);   margin: 0; }
+
+/* Section spacing wrapper */
+.ae-section {
+  padding-top: var(--ae-section-pad-y);
+  padding-bottom: var(--ae-section-pad-y);
+}
+
+/* Reading column for prose (article body, About copy) */
+.ae-prose {
+  max-width: var(--ae-read-max);
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-body);
+  line-height: 1.65;
+  color: var(--ae-ink);
+}
+.ae-prose p   { margin: 0 0 16px; text-wrap: pretty; }
+.ae-prose em  { color: var(--ae-accent); font-family: "Source Serif 4", Georgia, serif; font-style: italic; }
+.ae-prose a   { color: var(--ae-accent); text-decoration: none; border-bottom: 1px solid currentColor; font-style: italic; font-family: "Source Serif 4", Georgia, serif; }
+.ae-prose a:hover { opacity: 0.7; }
+
+/* Inline italic accent link (for "Continuar lectura →" patterns) */
+.ae-link {
+  color: var(--ae-accent);
+  font-family: "Source Serif 4", Georgia, serif;
+  font-style: italic;
+  text-decoration: none;
+  border-bottom: 1px solid var(--ae-accent);
+  padding-bottom: 2px;
+  transition: opacity 0.15s ease;
+}
+.ae-link:hover { opacity: 0.7; }
+
+/* Two-column editorial grid: slightly asymmetric. */
+.ae-grid-2     { display: grid; grid-template-columns: 1fr; gap: 40px; }
+@media (min-width: 768px) {
+  .ae-grid-2--lr { grid-template-columns: 1.4fr 1fr; gap: 64px; }
+  .ae-grid-2--rl { grid-template-columns: 1fr 1.4fr; gap: 64px; }
+  .ae-grid-2     { grid-template-columns: 1fr 1fr; gap: 64px; }
+}
+
+/* Three-up article row with hairline dividers */
+.ae-grid-3 { display: grid; grid-template-columns: 1fr; gap: 40px; }
+@media (min-width: 768px) {
+  .ae-grid-3 { grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .ae-grid-3 > * + * {
+    padding-left: 32px;
+    border-left: 1px solid var(--ae-rule-soft);
+  }
+  .ae-grid-3 > *:first-child + * { padding-left: 32px; }
+  .ae-grid-3 > *:not(:first-child) { padding-left: 32px; }
+}
+
+/* ─── Article card ───────────────────────────────────────────────── */
+
+.ae-card {
+  display: flex;
+  flex-direction: column;
+}
+.ae-card__meta {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-caption);
+  font-weight: 500;
+  letter-spacing: var(--ae-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--ae-accent);
+  margin-bottom: 16px;
+}
+.ae-card__title {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-h3);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.012em;
+  margin: 0 0 12px;
+  text-wrap: balance;
+}
+.ae-card__dek {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-small);
+  line-height: 1.6;
+  color: var(--ae-ink-soft);
+  margin: 0;
+}
+
+/* ─── Index row (Roman numeral list — for causes, table-of-contents) ─ */
+
+.ae-index { display: grid; grid-template-columns: 1fr; border-top: 2px solid var(--ae-rule-bold); }
+@media (min-width: 768px) {
+  .ae-index { grid-template-columns: 1fr 1fr; }
+  .ae-index > *:nth-child(2n) { border-left: 1px solid var(--ae-rule-soft); padding-left: 40px; }
+}
+.ae-index__row {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--ae-rule-soft);
+}
+.ae-index__head { display: flex; align-items: baseline; gap: 20px; }
+.ae-index__num {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-style: italic;
+  font-size: 22px;
+  color: var(--ae-accent);
+}
+.ae-index__title {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.012em;
+  margin: 0;
+}
+.ae-index__body {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--ae-ink-soft);
+  margin: 12px 0 0;
+  padding-left: 38px;
+  max-width: 460px;
+}
+
+/* ─── Stats row ──────────────────────────────────────────────────── */
+
+.ae-stats {
+  display: grid;
+  grid-template-columns: 1fr;
+  border-top: 1px solid var(--ae-rule-strong);
+  border-bottom: 1px solid var(--ae-rule-strong);
+}
+@media (min-width: 768px) {
+  .ae-stats { grid-template-columns: repeat(4, 1fr); }
+  .ae-stats > * + * { border-left: 1px solid var(--ae-rule-soft); }
+}
+.ae-stat { padding: 28px 24px; }
+.ae-stat__num {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: 44px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+.ae-stat__label {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-caption);
+  font-weight: 500;
+  letter-spacing: var(--ae-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--ae-ink-mute);
+  margin-top: 12px;
+}
+
+/* ─── Drop cap (for article body opening paragraphs) ─────────────── */
+
+.ae-dropcap::first-letter {
+  font-family: "Source Serif 4", Georgia, serif;
+  font-size: 64px;
+  line-height: 0.8;
+  float: left;
+  margin: 6px 12px 0 0;
+  color: var(--ae-accent);
+}
+
+/* ─── Striped image placeholder (use until real photos arrive) ───── */
+
+.ae-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    repeating-linear-gradient(45deg,
+      var(--ae-paper) 0,
+      var(--ae-paper) 12px,
+      var(--ae-bg) 12px,
+      var(--ae-bg) 24px);
+  border: 1px solid var(--ae-rule-soft);
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-caption);
+  font-weight: 500;
+  letter-spacing: var(--ae-eyebrow-tracking);
+  text-transform: uppercase;
+  color: var(--ae-ink-mute);
+  min-height: 240px;
+}
+
+/* ─── Page-level editorial primitives ──────────────────────────────── */
+
+.page-top {
+  padding-top: calc(var(--nav-height, 76px) + 48px);
+}
+
+.page-title-ed {
+  font-family: var(--font-sans, "Inter", system-ui, sans-serif);
+  font-size: var(--ae-t-h1);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: var(--ae-h-tracking);
+  max-width: 900px;
+  text-wrap: balance;
+  margin: 0;
+}
