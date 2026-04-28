@@ -1,0 +1,760 @@
+/* ============================================
+   Opportunities Board V2 — EA.org /opportunities anatomy
+   Cards expand in place; custom multi-select filter dropdowns.
+   ============================================ */
+
+/* === Hero — dark, big type, no image === */
+.opp-hero {
+  background-color: var(--bg-dark);
+  color: var(--text-light);
+  padding: 0 0 3.5rem;
+  margin-top: var(--nav-height);
+  position: relative;
+  z-index: 1;
+}
+
+.opp-main {
+  position: relative;
+  z-index: 2;
+}
+
+.opp-hero .container {
+  padding-top: 4rem;
+}
+
+.opp-hero h1 {
+  color: var(--text-light);
+  font-size: clamp(2.75rem, 5.5vw, 4.5rem);
+  font-weight: 600;
+  letter-spacing: -1.2px;
+  line-height: 1.1;
+  margin-bottom: 1.25rem;
+}
+
+.opp-hero p {
+  color: var(--text-light-muted);
+  font-size: 1.125rem;
+  max-width: 520px;
+  line-height: 1.6;
+  margin-bottom: 0;
+}
+
+/* === Search Bar === */
+.opp-search-wrap {
+  position: relative;
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
+}
+
+.opp-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-secondary);
+  pointer-events: none;
+}
+
+.opp-search {
+  width: 100%;
+  padding: 14px 16px 14px 42px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  background: #fff;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.opp-search:focus {
+  border-color: var(--color-salmon);
+  box-shadow: 0 0 0 3px rgba(245, 148, 105, 0.1);
+}
+
+.opp-search::placeholder {
+  color: var(--text-secondary);
+}
+
+/* === Filter Panel (3x2 grid wrapper) === */
+.opp-filters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.75rem;
+}
+
+/* === Custom Filter Dropdown === */
+.opp-filter {
+  position: relative;
+}
+
+.opp-filter-button {
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  outline: none;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.16px;
+  color: var(--text-primary);
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.opp-filter-button:hover {
+  border-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.opp-filter-button[aria-expanded="true"] {
+  border-color: var(--text-primary);
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.opp-filter-button-label {
+  flex: 1 1 auto;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.opp-filter-caret {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+  color: var(--text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.opp-filter-button[aria-expanded="true"] .opp-filter-caret {
+  transform: rotate(180deg);
+}
+
+.opp-filter-panel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 0;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.opp-filter-panel[hidden] {
+  display: none;
+}
+
+.opp-filter-search {
+  width: 100%;
+  background: transparent;
+  padding: 10px 12px;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.16px;
+  color: var(--text-primary);
+  box-sizing: border-box;
+}
+
+.opp-filter-search::placeholder {
+  color: var(--text-secondary);
+}
+
+.opp-filter-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.opp-filter-item {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  transition: background-color 0.1s ease;
+}
+
+.opp-filter-item:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.opp-filter-item label {
+  flex: 1;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.opp-filter-item--highlight .opp-filter-checkbox {
+  border-color: var(--text-primary);
+}
+
+.opp-filter-checkbox {
+  display: grid;
+  place-content: center;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  margin: 0;
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.opp-filter-checkbox:hover {
+  border-color: var(--text-primary);
+}
+
+.opp-filter-checkbox::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  transform: scale(0);
+  transition: transform 120ms ease-in-out;
+  transform-origin: left bottom;
+  box-shadow: var(--text-primary) 1em 1em inset;
+  clip-path: polygon(14% 44%, 0% 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.opp-filter-checkbox:checked::before {
+  transform: scale(1);
+}
+
+.opp-filter-checkbox:checked {
+  border-color: var(--text-primary);
+}
+
+/* === Results Bar === */
+.opp-results-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  margin-bottom: 0;
+}
+
+.opp-count {
+  font-family: var(--font-ui);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.opp-count strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.opp-clear-filters {
+  background: none;
+  border: none;
+  font-family: var(--font-ui);
+  font-size: 0.8125rem;
+  color: var(--color-salmon);
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  transition: opacity var(--transition);
+  font-weight: 500;
+}
+
+.opp-clear-filters:hover {
+  opacity: 0.7;
+}
+
+/* === Opportunity List === */
+.opp-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* === Opportunity Card (closed + open base) === */
+.opp-card {
+  position: relative;
+  overflow: hidden;
+  background: #ffffff;
+  width: 100%;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text-primary);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  margin-bottom: 12px;
+  transition: box-shadow 0.15s ease;
+  scroll-margin-top: calc(var(--nav-height) + 16px);
+}
+
+.opp-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.opp-card--open {
+  cursor: default;
+}
+
+.opp-card--open:hover {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Chevron — top-right of card, rotates when open */
+.opp-card-chevron {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 18px;
+  height: 18px;
+  fill: var(--text-secondary);
+  pointer-events: none;
+  transition: transform 0.2s ease;
+}
+
+.opp-card--open .opp-card-chevron {
+  transform: rotate(180deg);
+}
+
+/* Header (image + summary) */
+.opp-card-header {
+  display: flex;
+  gap: 16px;
+}
+
+.opp-card-image-wrap {
+  width: 60px;
+  height: 60px;
+  min-width: 60px;
+  overflow: hidden;
+  font-size: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.opp-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.opp-card-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--placeholder-bg, var(--bg-sand, #ebe5dd));
+  color: var(--placeholder-color, var(--text-primary));
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  border-radius: 8px;
+}
+
+.opp-card-summary {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-right: 32px; /* leave room for the absolute chevron */
+  min-width: 0;
+}
+
+.opp-card-title {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.3px;
+  color: var(--text-primary);
+  margin-bottom: 2px;
+}
+
+.opp-card-orgs {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--text-secondary);
+  line-height: 1.25;
+}
+
+.opp-card-org {
+  text-decoration: none;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.opp-card-org:hover {
+  color: var(--text-primary);
+}
+
+.opp-card-date {
+  font-family: var(--font-ui);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.opp-card-date--mobile {
+  display: none;
+}
+
+.opp-card-date--desktop {
+  display: inline-block;
+}
+
+.opp-card-footer {
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.opp-card-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* === Chips === */
+.opp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+  border-radius: 20px;
+  border: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+
+.opp-chip:hover {
+  opacity: 0.7;
+}
+
+.opp-chip[aria-pressed="true"] {
+  outline: 1px solid currentColor;
+  outline-offset: 1px;
+}
+
+/* Cause area chip color variants — colored text + 9.4% opacity bg */
+.opp-chip--ai-safety {
+  color: #7c3aed;
+  background-color: rgba(124, 58, 237, 0.15);
+}
+
+.opp-chip--global-health {
+  color: #059669;
+  background-color: rgba(5, 150, 105, 0.15);
+}
+
+.opp-chip--animal-welfare {
+  color: #d97706;
+  background-color: rgba(217, 119, 6, 0.15);
+}
+
+.opp-chip--biosecurity {
+  color: #dc2626;
+  background-color: rgba(220, 38, 38, 0.15);
+}
+
+.opp-chip--climate {
+  color: #0891b2;
+  background-color: rgba(8, 145, 178, 0.15);
+}
+
+.opp-chip--governance {
+  color: #4338ca;
+  background-color: rgba(67, 56, 202, 0.15);
+}
+
+.opp-chip--poverty {
+  color: #b45309;
+  background-color: rgba(180, 83, 9, 0.15);
+}
+
+.opp-chip--meta {
+  color: #6b7280;
+  background-color: rgba(107, 114, 128, 0.15);
+}
+
+/* Type chips */
+.opp-chip--job {
+  color: #0f766e;
+  background-color: rgba(15, 118, 110, 0.15);
+}
+
+.opp-chip--fellowship {
+  color: #7c3aed;
+  background-color: rgba(124, 58, 237, 0.15);
+}
+
+.opp-chip--volunteer {
+  color: #f59469;
+  background-color: rgba(245, 148, 105, 0.15);
+}
+
+.opp-chip--internship {
+  color: #2563eb;
+  background-color: rgba(37, 99, 235, 0.15);
+}
+
+.opp-chip--program {
+  color: #9333ea;
+  background-color: rgba(147, 51, 234, 0.15);
+}
+
+/* Location chips */
+.opp-chip--colombia {
+  color: #b45309;
+  background-color: rgba(180, 83, 9, 0.15);
+}
+
+.opp-chip--latam {
+  color: #c026d3;
+  background-color: rgba(192, 38, 211, 0.15);
+}
+
+.opp-chip--remote {
+  color: #475569;
+  background-color: rgba(71, 85, 105, 0.15);
+}
+
+.opp-chip--usa {
+  color: #1d4ed8;
+  background-color: rgba(29, 78, 216, 0.15);
+}
+
+.opp-chip--uk {
+  color: #be123c;
+  background-color: rgba(190, 18, 60, 0.15);
+}
+
+.opp-chip--europe {
+  color: #0e7490;
+  background-color: rgba(14, 116, 144, 0.15);
+}
+
+/* Skill chips */
+.opp-chip--engineering {
+  color: #1e40af;
+  background-color: rgba(30, 64, 175, 0.15);
+}
+
+.opp-chip--research {
+  color: #047857;
+  background-color: rgba(4, 120, 87, 0.15);
+}
+
+.opp-chip--operations {
+  color: #b45309;
+  background-color: rgba(180, 83, 9, 0.15);
+}
+
+.opp-chip--communications {
+  color: #be185d;
+  background-color: rgba(190, 24, 93, 0.15);
+}
+
+.opp-chip--policy {
+  color: #4338ca;
+  background-color: rgba(67, 56, 202, 0.15);
+}
+
+.opp-chip--management {
+  color: #6b7280;
+  background-color: rgba(107, 114, 128, 0.15);
+}
+
+/* === Open card details === */
+.opp-card-details {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.opp-card-details-row {
+  display: flex;
+  flex-direction: row;
+  gap: 28px;
+  flex-wrap: wrap;
+}
+
+.opp-card-details-row > div {
+  min-width: 140px;
+}
+
+.opp-card-details-heading {
+  color: var(--text-secondary);
+  font-family: var(--font-ui);
+  margin-bottom: 8px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.opp-card-details-value {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+.opp-card-description {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--text-primary);
+  word-break: break-word;
+  white-space: pre-line;
+  max-width: 720px;
+}
+
+.opp-card-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.opp-card-apply {
+  flex-grow: 1;
+}
+
+.opp-card-apply-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  padding: 12px 20px;
+}
+
+.opp-card-apply-btn::after {
+  content: " \2192";
+}
+
+/* === Empty State === */
+.opp-empty {
+  padding: 4rem 0;
+  text-align: center;
+}
+
+.opp-empty p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* === Responsive === */
+@media (max-width: 1024px) {
+  .opp-filters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .opp-card-title {
+    font-size: 1.1875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .opp-hero .container {
+    padding-top: 3rem;
+  }
+
+  .opp-hero {
+    padding-bottom: 2.5rem;
+  }
+
+  .opp-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .opp-card {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .opp-card-title {
+    font-size: 1.125rem;
+  }
+
+  .opp-chip {
+    padding: 4px 10px;
+  }
+
+  .opp-card-chevron {
+    top: 14px;
+    right: 14px;
+  }
+
+  .opp-card-summary {
+    padding-right: 24px;
+  }
+
+  .opp-card-date--desktop {
+    display: none;
+  }
+
+  .opp-card-date--mobile {
+    display: inline-block;
+  }
+
+  .opp-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .opp-card-details-row {
+    gap: 20px;
+  }
+
+  .opp-card-details-row > div {
+    flex: 1 1 100%;
+  }
+}

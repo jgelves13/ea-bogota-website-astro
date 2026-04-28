@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/opportunities.css';
+import oppsData from '../../data/opportunities.json';
+const oppsJson = JSON.stringify(oppsData);
+---
+
+<BaseLayout locale="es" title="Tablero de oportunidades" currentPage="opportunities">
+<!-- Hero -->
+ <section class="opp-hero">
+ <div class="container">
+ <h1>
+ Tablero de<br>oportunidades
+
+ </h1>
+ <p>
+ Empleos, becas, programas y voluntariados con un enfoque especial en Colombia y América Latina, en organizaciones que priorizan la evidencia para hacer el mayor bien posible.
+
+ </p>
+ </div>
+ </section>
+
+ <!-- Filters + Results -->
+ <section class="opp-main bg-paper">
+ <div class="container">
+
+ <!-- Search Bar -->
+ <div class="opp-search-wrap">
+ <svg class="opp-search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+ <input type="text" id="opp-search" class="opp-search" placeholder="Buscar oportunidades...">
+ </div>
+
+ <!-- Filter Panel — custom multi-select dropdowns -->
+ <div class="opp-filters" id="opp-filters">
+
+ <div class="opp-filter" data-filter="type">
+ <button type="button" class="opp-filter-button" aria-expanded="false" aria-haspopup="listbox">
+ <span class="opp-filter-button-label">Tipo de oportunidad</span>
+ <svg class="opp-filter-caret" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" fill="currentColor"/></svg>
+ </button>
+ <div class="opp-filter-panel" hidden>
+ <input type="text" class="opp-filter-search" placeholder="Buscar…" aria-label="Buscar tipo">
+ <ul class="opp-filter-list" role="listbox" aria-multiselectable="true"></ul>
+ </div>
+ </div>
+
+ <div class="opp-filter" data-filter="cause">
+ <button type="button" class="opp-filter-button" aria-expanded="false" aria-haspopup="listbox">
+ <span class="opp-filter-button-label">Área de causa</span>
+ <svg class="opp-filter-caret" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" fill="currentColor"/></svg>
+ </button>
+ <div class="opp-filter-panel" hidden>
+ <input type="text" class="opp-filter-search" placeholder="Buscar…" aria-label="Buscar causa">
+ <ul class="opp-filter-list" role="listbox" aria-multiselectable="true"></ul>
+ </div>
+ </div>
+
+ <div class="opp-filter" data-filter="location">
+ <button type="button" class="opp-filter-button" aria-expanded="false" aria-haspopup="listbox">
+ <span class="opp-filter-button-label">Ubicación</span>
+ <svg class="opp-filter-caret" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" fill="currentColor"/></svg>
+ </button>
+ <div class="opp-filter-panel" hidden>
+ <input type="text" class="opp-filter-search" placeholder="Buscar…" aria-label="Buscar ubicación">
+ <ul class="opp-filter-list" role="listbox" aria-multiselectable="true"></ul>
+ </div>
+ </div>
+
+ <div class="opp-filter" data-filter="education">
+ <button type="button" class="opp-filter-button" aria-expanded="false" aria-haspopup="listbox">
+ <span class="opp-filter-button-label">Educación</span>
+ <svg class="opp-filter-caret" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" fill="currentColor"/></svg>
+ </button>
+ <div class="opp-filter-panel" hidden>
+ <input type="text" class="opp-filter-search" placeholder="Buscar…" aria-label="Buscar educación">
+ <ul class="opp-filter-list" role="listbox" aria-multiselectable="true"></ul>
+ </div>
+ </div>
+
+ <div class="opp-filter" data-filter="route">
+ <button type="button" class="opp-filter-button" aria-expanded="false" aria-haspopup="listbox">
+ <span class="opp-filter-button-label">Ruta de impacto</span>
+ <svg class="opp-filter-caret" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" fill="currentColor"/></svg>
+ </button>
+ <div class="opp-filter-panel" hidden>
+ <input type="text" class="opp-filter-search" placeholder="Buscar…" aria-label="Buscar ruta">
+ <ul class="opp-filter-list" role="listbox" aria-multiselectable="true"></ul>
+ </div>
+ </div>
+
+ <div class="opp-filter" data-filter="skill">
+ <button type="button" class="opp-filter-button" aria-expanded="false" aria-haspopup="listbox">
+ <span class="opp-filter-button-label">Habilidades</span>
+ <svg class="opp-filter-caret" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z" fill="currentColor"/></svg>
+ </button>
+ <div class="opp-filter-panel" hidden>
+ <input type="text" class="opp-filter-search" placeholder="Buscar…" aria-label="Buscar habilidad">
+ <ul class="opp-filter-list" role="listbox" aria-multiselectable="true"></ul>
+ </div>
+ </div>
+
+ </div>
+
+ <!-- Active filters / count -->
+ <div class="opp-results-bar">
+ <span class="opp-count" id="opp-count">
+ Mostrando <strong id="count-num">24</strong> oportunidades
+
+ </span>
+ <button class="opp-clear-filters" id="opp-clear" style="display:none;">
+ Limpiar filtros
+
+ </button>
+ </div>
+
+ <!-- Opportunity Cards List -->
+ <div class="opp-list" id="opp-list">
+ <!-- Cards injected by JS -->
+ </div>
+
+ <!-- Empty state -->
+ <div class="opp-empty" id="opp-empty" style="display:none;">
+ <p>
+ No se encontraron oportunidades con estos filtros. Intenta ajustar tu búsqueda.
+
+ </p>
+ </div>
+
+ </div>
+ </section>
+
+ <!-- CTA Section -->
+ <section class="section-dark">
+ <div class="container" style="text-align:center; padding: 3rem 2rem;">
+ <h2 style="color: var(--text-light); margin-bottom: 1rem;">
+ ¿Tu organización contrata?
+
+ </h2>
+ <p style="color: var(--text-light-muted); max-width: 520px; margin: 0 auto 2rem;">
+ Si tu organización trabaja en alguna de estas áreas de causa y tiene vacantes abiertas, nos encantaría incluirla.
+
+ </p>
+ <a href="mailto:eabogota.team@gmail.com" class="btn btn-light">
+ Contáctanos
+
+ </a>
+ </div>
+ </section>
+
+ <!-- Footer -->
+<script is:inline define:vars={{ oppsJson }}>
+  window.OPPORTUNITIES_DATA = JSON.parse(oppsJson);
+</script>
+<script src="../../scripts/opportunities.js"></script>
+</BaseLayout>

@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import '../../styles/events.css';
+import eventsData from '../../data/events.json';
+const eventsJson = JSON.stringify(eventsData);
+---
+
+<BaseLayout locale="en" title="Events" currentPage="events">
+<!-- Page Header -->
+ <section class="page-header">
+ <div class="container">
+ <h1>
+
+ Events
+ </h1>
+ <p>
+
+ Talks, workshops, reading groups, and social meetups. Open to everyone.
+ </p>
+ </div>
+ </section>
+
+ <!-- Upcoming Events Grid -->
+ <section class="section bg-paper">
+ <div class="container">
+ <div class="section-header fade-in">
+ <span class="section-label">
+
+ Schedule
+ </span>
+ <h2>
+
+ Upcoming Events
+ </h2>
+ </div>
+
+ <div id="events-grid" class="events-grid fade-in"></div>
+ </div>
+ </section>
+
+ <!-- Event Types -->
+ <section class="section bg-sand-dark">
+ <div class="container">
+ <div class="section-header fade-in">
+ <span class="section-label">
+
+ Types of Events
+ </span>
+ <h2>
+
+ What kind of events do we organize?
+ </h2>
+ </div>
+
+ <div class="grid grid-2 fade-in">
+ <div class="card">
+ <h4>
+
+ Talks
+ </h4>
+ <p>
+
+ We invite experts and professionals to share their knowledge about cause areas, impactful careers, program evaluation, and more. 60-90 minute sessions with Q&A.
+ </p>
+ </div>
+
+ <div class="card">
+ <h4>
+
+ Reading Groups
+ </h4>
+ <p>
+
+ Discussions on key EA books and articles. From "Doing Good Better" to impact evaluation papers. Accessible format for beginners and experts alike.
+ </p>
+ </div>
+
+ <div class="card">
+ <h4>
+
+ Workshops
+ </h4>
+ <p>
+
+ Interactive sessions where participants apply EA tools to their own decisions: career planning, donation evaluation, theory of change, and more.
+ </p>
+ </div>
+
+ <div class="card">
+ <h4>
+
+ Social Meetups
+ </h4>
+ <p>
+
+ Informal spaces to meet other community members, share ideas, and build connections. Because impact is also built in community.
+ </p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- Host an Event CTA -->
+ <section class="section-dark">
+ <div class="container text-center fade-in">
+ <div class="section-header">
+ <h2>
+
+ Want to host an event?
+ </h2>
+ <p>
+
+ If you have an idea for a talk, workshop, or activity related to EA, we'd love to hear it.
+ </p>
+ </div>
+ <a href="https://tally.so/r/J9J1aY" target="_blank" rel="noopener noreferrer" class="btn btn-light btn-lg">
+
+ Propose an event
+ </a>
+ </div>
+ </section>
+
+ <!-- Footer -->
+<script is:inline define:vars={{ eventsJson }}>
+  window.EVENTS_DATA = JSON.parse(eventsJson);
+</script>
+<script src="../../scripts/events.js"></script>
+</BaseLayout>

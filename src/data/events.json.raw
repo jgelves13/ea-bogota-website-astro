@@ -1,0 +1,54 @@
+[
+  {
+    "title": "Introduction to Effective Altruism",
+    "titleEs": "Introducción al Altruismo Eficaz",
+    "type": "talks",
+    "date": "2026-05-15",
+    "time": "19:00",
+    "location": "WeWork Calle 100, Bogotá",
+    "locationEs": "WeWork Calle 100, Bogotá",
+    "description": "An introductory talk on the key ideas behind Effective "Altruism": evidence, prioritization, and high-impact action.",
+    "descriptionEs": "Charla introductoria sobre las ideas clave del Altruismo "Eficaz": evidencia, priorización y acción de alto impacto.",
+    "image": "img/events/talks.svg",
+    "tallyUrl": "https://tally.so/r/XXXXXX"
+  },
+  {
+    "title": "Reading "Group": Doing Good Better",
+    "titleEs": "Grupo de "lectura": Doing Good Better",
+    "type": "reading-groups",
+    "date": "2026-05-22",
+    "time": "18:00",
+    "location": "Online (Zoom)",
+    "locationEs": "Virtual (Zoom)",
+    "description": "Discussion of chapters 3-5 of William MacAskill's 'Doing Good Better'. Open to newcomers.",
+    "descriptionEs": "Discusión de los capítulos 3-5 de 'Doing Good Better' de William MacAskill. Abierto a nuevos participantes.",
+    "image": "img/events/reading-groups.svg",
+    "tallyUrl": "https://tally.so/r/XXXXXX"
+  },
+  {
+    "title": "Career Planning Workshop",
+    "titleEs": "Taller de planificación de carrera",
+    "type": "workshops",
+    "date": "2026-06-05",
+    "time": "10:00",
+    "location": "Universidad de los Andes, Bogotá",
+    "locationEs": "Universidad de los Andes, Bogotá",
+    "description": "Hands-on workshop applying 80,000 Hours career planning framework to your own career decisions.",
+    "descriptionEs": "Taller práctico aplicando el marco de planificación de carrera de 80,000 Hours a tus propias decisiones profesionales.",
+    "image": "img/events/workshops.svg",
+    "tallyUrl": "https://tally.so/r/XXXXXX"
+  },
+  {
+    "title": "EA Social Meetup",
+    "titleEs": "Encuentro social de AE",
+    "type": "social-meetups",
+    "date": "2026-06-12",
+    "time": "17:00",
+    "location": "Café Cultor, Chapinero, Bogotá",
+    "locationEs": "Café Cultor, Chapinero, Bogotá",
+    "description": "Casual meetup to connect with fellow EAs in Bogotá. No agenda, just good conversation about doing good.",
+    "descriptionEs": "Encuentro informal para conectar con otros altruistas eficaces en Bogotá. Sin agenda, solo buenas conversaciones sobre hacer el bien.",
+    "image": "img/events/social-meetups.svg",
+    "tallyUrl": "https://tally.so/r/XXXXXX"
+  }
+]

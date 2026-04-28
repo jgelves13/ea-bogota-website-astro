@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="440" viewBox="0 0 800 440">
+  <rect width="800" height="440" fill="#6b8e23" opacity="0.1"/>
+  <rect width="800" height="440" fill="url(#g3)"/>
+  <defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6b8e23" stop-opacity="0.25"/><stop offset="100%" stop-color="#f4efe9" stop-opacity="0.1"/></linearGradient></defs>
+  <circle cx="400" cy="190" r="55" fill="none" stroke="#6b8e23" stroke-width="3" opacity="0.5"/>
+  <path d="M380 190 L395 210 L425 170" fill="none" stroke="#6b8e23" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/>
+  <text x="400" y="340" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" font-weight="600" fill="#6b8e23" opacity="0.6">TALLERES / WORKSHOPS</text>
+</svg>

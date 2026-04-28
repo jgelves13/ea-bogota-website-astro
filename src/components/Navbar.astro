@@ -1,0 +1,110 @@
+---
+import type { Locale } from '../i18n/ui';
+import { t, localePath } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  currentPage?: string;
+}
+
+const { locale, currentPage = '' } = Astro.props;
+const altLoc = locale === 'es' ? 'en' : 'es';
+
+const currentPath = Astro.url.pathname.replace(`/${locale}`, '') || '/';
+const altHref = `/${altLoc}${currentPath}`;
+
+function isActive(page: string): string {
+  return currentPage === page ? ' active' : '';
+}
+
+const caretSvg = `<svg class="nav-dropdown-caret" viewBox="0 0 20 20" aria-hidden="true"><path d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"/></svg>`;
+
+const dropdownLinks = [
+  { href: localePath(locale, '/about-ea/'), label: t(locale, 'nav.intro-essay') },
+  { href: localePath(locale, '/faq/'), label: t(locale, 'nav.faq') },
+  { href: localePath(locale, '/resources/'), label: locale === 'es' ? t(locale, 'nav.resources-es') : t(locale, 'nav.resources-all') },
+  ...(locale === 'es' ? [] : [{ href: localePath(locale, '/resources/'), label: '' }]),
+  { href: 'https://www.effectivealtruism.org/courses/introductory-program', label: t(locale, 'nav.online-course'), external: true },
+  { href: 'https://www.effectivealtruism.org/stories', label: t(locale, 'nav.community-stories'), external: true },
+  { href: '', label: t(locale, 'nav.newsletter'), placeholder: true },
+  { href: 'https://forum.effectivealtruism.org/handbook', label: t(locale, 'nav.handbook'), external: true },
+  { href: 'https://forum.effectivealtruism.org/', label: t(locale, 'nav.forum'), external: true },
+].filter(l => l.label);
+---
+
+<nav class="navbar">
+  <div class="container">
+    <a href={localePath(locale, '/')} class="nav-logo">
+      <img src="/img/logo-ea.png" alt="EA" class="nav-logo-icon">
+      <span>Altruismo Eficaz Bogotá</span>
+    </a>
+    <div class="nav-links">
+      <div class="nav-dropdown">
+        <button class={`nav-dropdown-toggle${isActive('about-ea') || isActive('faq') || isActive('resources') ? ' active' : ''}`} type="button" aria-expanded="false" aria-haspopup="true">
+          {t(locale, 'nav.learn')}
+          <Fragment set:html={caretSvg} />
+        </button>
+        <div class="nav-dropdown-menu" role="menu">
+          {dropdownLinks.map((link) => (
+            link.placeholder ? (
+              <span class="nav-dropdown-placeholder" role="menuitem" aria-disabled="true">{link.label}</span>
+            ) : link.external ? (
+              <a href={link.href} target="_blank" rel="noopener noreferrer" role="menuitem">
+                {link.label}<span class="nav-dropdown-ext" aria-hidden="true">↗</span>
+              </a>
+            ) : (
+              <a href={link.href} role="menuitem">{link.label}</a>
+            )
+          ))}
+        </div>
+      </div>
+      <a href={localePath(locale, '/get-involved/')} class={isActive('get-involved').trim() ? 'active' : ''}>{t(locale, 'nav.take-action')}</a>
+      <a href={localePath(locale, '/events/')} class={isActive('events').trim() ? 'active' : ''}>{t(locale, 'nav.events')}</a>
+      <a href={localePath(locale, '/opportunities/')} class={isActive('opportunities').trim() ? 'active' : ''}>{t(locale, 'nav.opportunities')}</a>
+      <a href={localePath(locale, '/team/')} class={isActive('team').trim() ? 'active' : ''}>{t(locale, 'nav.team')}</a>
+      <a href="https://www.effectivealtruism.org/ea-global" target="_blank" rel="noopener noreferrer">
+        {t(locale, 'nav.conferences')}<span class="nav-ext" aria-hidden="true">↗</span>
+      </a>
+    </div>
+    <div class="nav-right">
+      <div class="lang-toggle">
+        <a href={locale === 'es' ? Astro.url.pathname : altHref} class={locale === 'es' ? 'active' : ''} style="padding:0.25rem 0.5rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.05em;">ES</a>
+        <a href={locale === 'en' ? Astro.url.pathname : altHref} class={locale === 'en' ? 'active' : ''} style="padding:0.25rem 0.5rem;font-size:0.6875rem;font-weight:600;letter-spacing:0.05em;">EN</a>
+      </div>
+      <button class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Nav -->
+<div class="mobile-nav">
+  <a href={localePath(locale, '/')} class={isActive('index').trim() ? 'active' : ''}>{t(locale, 'nav.home')}</a>
+  <div class="nav-dropdown">
+    <button class={`nav-dropdown-toggle${isActive('about-ea') || isActive('faq') || isActive('resources') ? ' active' : ''}`} type="button" aria-expanded="false" aria-haspopup="true">
+      {t(locale, 'nav.learn')}
+      <Fragment set:html={caretSvg} />
+    </button>
+    <div class="nav-dropdown-menu" role="menu">
+      {dropdownLinks.map((link) => (
+        link.placeholder ? (
+          <span class="nav-dropdown-placeholder" role="menuitem" aria-disabled="true">{link.label}</span>
+        ) : link.external ? (
+          <a href={link.href} target="_blank" rel="noopener noreferrer" role="menuitem">
+            {link.label}<span class="nav-dropdown-ext" aria-hidden="true">↗</span>
+          </a>
+        ) : (
+          <a href={link.href} role="menuitem">{link.label}</a>
+        )
+      ))}
+    </div>
+  </div>
+  <a href={localePath(locale, '/get-involved/')} class={isActive('get-involved').trim() ? 'active' : ''}>{t(locale, 'nav.take-action')}</a>
+  <a href={localePath(locale, '/events/')} class={isActive('events').trim() ? 'active' : ''}>{t(locale, 'nav.events')}</a>
+  <a href={localePath(locale, '/opportunities/')} class={isActive('opportunities').trim() ? 'active' : ''}>{t(locale, 'nav.opportunities')}</a>
+  <a href={localePath(locale, '/team/')} class={isActive('team').trim() ? 'active' : ''}>{t(locale, 'nav.team')}</a>
+  <a href="https://www.effectivealtruism.org/ea-global" target="_blank" rel="noopener noreferrer">
+    {t(locale, 'nav.conferences')}<span class="nav-ext" aria-hidden="true">↗</span>
+  </a>
+</div>

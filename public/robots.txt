@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://website-three-orpin.vercel.app/sitemap-index.xml
