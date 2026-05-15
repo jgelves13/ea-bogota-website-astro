@@ -368,12 +368,22 @@
 
   // --- Render ---
   function render() {
+    var now = new Date();
+    now.setHours(0, 0, 0, 0);
     var sorted = OPPORTUNITIES.slice().sort(function (a, b) {
-      // Rolling first, then future deadlines soonest-first, then past
+      // Upcoming deadlines first (soonest first), then rolling, then past
       var aRoll = (!a.date || a.date === 'rolling') ? 1 : 0;
       var bRoll = (!b.date || b.date === 'rolling') ? 1 : 0;
+      var aDate = aRoll ? null : new Date(a.date + 'T00:00:00');
+      var bDate = bRoll ? null : new Date(b.date + 'T00:00:00');
+      var aFuture = aDate && aDate >= now ? 1 : 0;
+      var bFuture = bDate && bDate >= now ? 1 : 0;
+      // Future dates first
+      if (aFuture !== bFuture) return bFuture - aFuture;
+      // Among future dates, soonest first
+      if (aFuture && bFuture) return (a.date > b.date ? 1 : a.date < b.date ? -1 : 0);
+      // Rolling before past
       if (aRoll !== bRoll) return bRoll - aRoll;
-      if (!aRoll) return (a.date > b.date ? 1 : a.date < b.date ? -1 : 0);
       return 0;
     });
     var filtered = sorted.filter(function (opp) {
