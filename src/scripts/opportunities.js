@@ -55,12 +55,20 @@
       'community':       { es: 'Construcción de comunidad', en: 'Community building' }
     },
     skill: {
-      'engineering':    { es: 'Ingeniería / ML', en: 'Engineering / ML' },
-      'research':       { es: 'Investigación',   en: 'Research' },
-      'operations':     { es: 'Operaciones',     en: 'Operations' },
-      'communications': { es: 'Comunicaciones',  en: 'Communications' },
-      'policy':         { es: 'Política',        en: 'Policy' },
-      'management':     { es: 'Gerencia',        en: 'Management' }
+      'engineering':        { es: 'Ingeniería / ML',          en: 'Engineering / ML' },
+      'research':           { es: 'Investigación',            en: 'Research' },
+      'operations':         { es: 'Operaciones',              en: 'Operations' },
+      'communications':     { es: 'Comunicaciones',           en: 'Communications' },
+      'policy':             { es: 'Política',                 en: 'Policy' },
+      'management':         { es: 'Gerencia',                 en: 'Management' },
+      'data-science':       { es: 'Ciencia de datos',         en: 'Data Science' },
+      'finance':            { es: 'Finanzas',                 en: 'Finance' },
+      'advocacy':           { es: 'Incidencia',               en: 'Advocacy' },
+      'teaching':           { es: 'Enseñanza',                en: 'Teaching' },
+      'design':             { es: 'Diseño',                   en: 'Design' },
+      'community-building': { es: 'Construcción de comunidad', en: 'Community Building' },
+      'legal':              { es: 'Legal',                    en: 'Legal' },
+      'field-work':         { es: 'Trabajo de campo',         en: 'Field Work' }
     }
   };
 
@@ -96,7 +104,8 @@
       skill:     Object.create(null)
     },
     openId: null,
-    openDropdown: null
+    openDropdown: null,
+    showClosed: false
   };
 
   function lang() { return document.documentElement.lang === 'en' ? 'en' : 'es'; }
@@ -124,26 +133,29 @@
     return false;
   }
 
-  // --- Relative date formatting (ES + EN) ---
-  function relativeDate(dateStr) {
+  // --- Deadline label formatting (ES + EN) ---
+  function deadlineLabel(dateStr) {
     var l = lang();
-    var now = new Date();
-    var d = new Date(dateStr);
-    var diff = Math.floor((now - d) / 86400000);
-    if (l === 'en') {
-      if (diff <= 0) return 'Today';
-      if (diff === 1) return '1 day ago';
-      if (diff < 7) return diff + ' days ago';
-      if (diff < 14) return '1 week ago';
-      if (diff < 30) return Math.floor(diff / 7) + ' weeks ago';
-      return Math.floor(diff / 30) + ' month(s) ago';
+    if (!dateStr || dateStr === 'rolling') {
+      return { text: l === 'es' ? 'Abierta' : 'Rolling', cls: 'opp-badge-rolling' };
     }
-    if (diff <= 0) return 'Hoy';
-    if (diff === 1) return 'Hace 1 día';
-    if (diff < 7) return 'Hace ' + diff + ' días';
-    if (diff < 14) return 'Hace 1 semana';
-    if (diff < 30) return 'Hace ' + Math.floor(diff / 7) + ' semanas';
-    return 'Hace ' + Math.floor(diff / 30) + ' mes(es)';
+    var d = new Date(dateStr + 'T00:00:00');
+    var now = new Date();
+    now.setHours(0, 0, 0, 0);
+    if (d < now) {
+      return { text: l === 'es' ? 'Cerrada' : 'Closed', cls: 'opp-badge-closed' };
+    }
+    var fmt = new Intl.DateTimeFormat(l === 'es' ? 'es-CO' : 'en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+    var prefix = l === 'es' ? 'Fecha limite: ' : 'Deadline: ';
+    return { text: prefix + fmt.format(d), cls: 'opp-deadline' };
+  }
+
+  function isExpired(dateStr) {
+    if (!dateStr || dateStr === 'rolling') return false;
+    var d = new Date(dateStr + 'T00:00:00');
+    var now = new Date();
+    now.setHours(0, 0, 0, 0);
+    return d < now;
   }
 
   // --- DOM helpers ---
@@ -195,8 +207,9 @@
     var title = (l === 'es' && opp.titleEs) ? opp.titleEs : opp.title;
     var desc  = (l === 'es' && opp.descriptionEs) ? opp.descriptionEs : (opp.description || opp.descriptionEs || '');
 
+    var expired = isExpired(opp.date);
     var card = document.createElement('article');
-    card.className = 'opp-card' + (isOpen ? ' opp-card--open' : '');
+    card.className = 'opp-card' + (isOpen ? ' opp-card--open' : '') + (expired ? ' opp-card--closed' : '');
     card.setAttribute('data-id', opp.id);
     card.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 
@@ -247,7 +260,8 @@
     orgs.appendChild(orgLink);
     summary.appendChild(orgs);
 
-    summary.appendChild(el('div', 'opp-card-date opp-card-date--mobile', relativeDate(opp.date)));
+    var dl = deadlineLabel(opp.date);
+    summary.appendChild(el('div', 'opp-card-date opp-card-date--mobile ' + dl.cls, dl.text));
 
     var footer = el('div', 'opp-card-footer');
     var headerChips = el('div', 'opp-card-chips');
@@ -255,7 +269,7 @@
     headerChips.appendChild(chip('cause', opp.cause));
     headerChips.appendChild(chip('location', opp.location));
     footer.appendChild(headerChips);
-    footer.appendChild(el('div', 'opp-card-date opp-card-date--desktop', relativeDate(opp.date)));
+    footer.appendChild(el('div', 'opp-card-date opp-card-date--desktop ' + dl.cls, dl.text));
     summary.appendChild(footer);
 
     header.appendChild(summary);
@@ -332,12 +346,40 @@
 
   if (!listEl) return;
 
+  // --- "Show closed" toggle (injected after results bar) ---
+  var closedToggle = document.createElement('label');
+  closedToggle.className = 'opp-closed-toggle';
+  var closedCb = document.createElement('input');
+  closedCb.type = 'checkbox';
+  closedCb.className = 'opp-closed-toggle-cb';
+  closedToggle.appendChild(closedCb);
+  var closedSpan = document.createElement('span');
+  closedToggle.appendChild(closedSpan);
+  function updateClosedLabel() {
+    closedSpan.textContent = lang() === 'es' ? ' Mostrar cerradas' : ' Show closed';
+  }
+  updateClosedLabel();
+  var resultsBar = document.querySelector('.opp-results-bar');
+  if (resultsBar) resultsBar.appendChild(closedToggle);
+  closedCb.addEventListener('change', function () {
+    state.showClosed = closedCb.checked;
+    render();
+  });
+
   // --- Render ---
   function render() {
     var sorted = OPPORTUNITIES.slice().sort(function (a, b) {
-      return new Date(b.date) - new Date(a.date);
+      // Rolling first, then future deadlines soonest-first, then past
+      var aRoll = (!a.date || a.date === 'rolling') ? 1 : 0;
+      var bRoll = (!b.date || b.date === 'rolling') ? 1 : 0;
+      if (aRoll !== bRoll) return bRoll - aRoll;
+      if (!aRoll) return (a.date > b.date ? 1 : a.date < b.date ? -1 : 0);
+      return 0;
     });
-    var filtered = sorted.filter(matchesFilters);
+    var filtered = sorted.filter(function (opp) {
+      if (!state.showClosed && isExpired(opp.date)) return false;
+      return matchesFilters(opp);
+    });
 
     while (listEl.firstChild) listEl.removeChild(listEl.firstChild);
     filtered.forEach(function (opp) { listEl.appendChild(renderCard(opp)); });
@@ -418,6 +460,9 @@
 
     // Update main search placeholder
     if (searchInput) searchInput.placeholder = SEARCH_PLACEHOLDER_MAIN[l];
+
+    // Update closed toggle label
+    updateClosedLabel();
 
     // Update each panel search placeholder
     document.querySelectorAll('.opp-filter-search').forEach(function (input) {
