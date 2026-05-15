@@ -223,7 +223,7 @@
     if (opp.image) {
       var img = document.createElement('img');
       img.className = 'opp-card-image';
-      img.src = opp.image;
+      img.src = opp.image.startsWith('/') ? opp.image : '/' + opp.image;
       img.alt = '';
       img.loading = 'lazy';
       imgWrap.appendChild(img);
